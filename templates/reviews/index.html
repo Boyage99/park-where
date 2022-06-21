@@ -1,15 +1,29 @@
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>주차어디 | 리뷰 전체보기</title>
-    <link rel="stylesheet" href="/static/css/default.css" />
-  </head>
-
-  <body>
+{% extends "reviews/layout.html" %}
+{% block title %}리뷰 전체보기{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/reviews.css">
+    <script>
+        $(document).ready(function () {
+          getAllParkReview();
+        });
+        const getAllParkReview = () => {
+            $.ajax({
+                type: "GET",
+                url: '/api/reviews',
+                data: {},
+                success: function (res) {
+                    console.log(res.reviews);
+                }
+            })
+        }
+    </script>
+{% endblock %}
+{% block main %}
     <h1>리뷰 전체보기 페이지</h1>
-    <p>테스트</p>
-  </body>
-</html>
+    <p>-- 테스트 링크 --</p>
+    <a href="/reviews/62b165f46080642ab45a6c3b">동화마을제2공영주차장 리뷰</a>
+    <a href="/reviews/62b165f46080642ab45a6c3b/new">동화마을제2공영주차장 리뷰작성</a>
+    <a href="/reviews/62b165f46080642ab45a6c3c">송월시장임시공영주차장 리뷰</a>
+    <a href="/reviews/62b165f46080642ab45a6c3c/new">송월시장임시공영주차장 리뷰작성</a>
+{% endblock %}
