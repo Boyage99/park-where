@@ -12,6 +12,10 @@
   --custom-gray: #76838a;
 }
 
+a:hover {
+  color: inherit;
+}
+
 .custom-max-width {
   max-width: 700px;
 }

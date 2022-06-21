@@ -1,35 +1,25 @@
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>주차어디 | 리뷰 작성</title>
-    <link rel="stylesheet" href="/static/css/default.css" />
+{% extends "reviews/layout.html" %}
+{% block title %}리뷰 작성{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/reviews.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="/static/js/reviews.js"></script>
-  </head>
-
-  <body>
+{% endblock %}
+{% block main %}
     <h1>리뷰 작성 페이지</h1>
     <form class="review-form">
-      <label for="review-comment"></label>
-      <textarea
-        name="review-comment"
-        id="review-comment"
-        cols="30"
-        rows="10"
-      ></textarea>
-      <label for="review-rate">별점</label>
-      <select class="form-select" id="review-rate">
-        <option selected>-- 선택하세요🌟 --</option>
-        <option value="1">⭐</option>
-        <option value="2">⭐⭐</option>
-        <option value="3">⭐⭐⭐</option>
-        <option value="4">⭐⭐⭐⭐</option>
-        <option value="5">⭐⭐⭐⭐⭐</option>
-      </select>
-      <button>작성</button>
+        <textarea name="review-comment" id="review-comment" cols="30" rows="10"></textarea>
+        <label for="review-comment" hidden></label>
+        <select class="form-select" id="review-rate">
+            <option selected disabled hidden>-- 선택하세요🌟 --</option>
+            <option value="1">⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+        </select>
+        <label for="review-rate" hidden>별점</label>
+        <button>작성</button>
     </form>
-  </body>
-</html>
+{% endblock %}
