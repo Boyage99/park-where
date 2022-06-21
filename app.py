@@ -21,6 +21,9 @@ db = client.dbparkwhere
 # Index Page
 @app.route('/')
 def home():
+    return render_template("index.html")
+
+    # FIXME: 임시로 비활성화
     token = request.cookies.get("token")
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
