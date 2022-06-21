@@ -22,7 +22,6 @@ db = client.dbparkwhere
 # Index Page
 @app.route('/')
 def home():
-
     token = request.cookies.get("token")
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
