@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    {% block head %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>주차어디 | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/default.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% endblock %}
+</head>
+
+<body>
+    {% include "partials/header.html" %}
+    <main class="main-review">{% block main %}{% endblock %}</main>
+    {% include "partials/homenav.html" %}
+</body>
+
+</html>
