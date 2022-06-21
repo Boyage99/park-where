@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify,session, redirect, url_for
 from dotenv import load_dotenv
 from pymongo import MongoClient, ReturnDocument
+from bson.objectid import ObjectId
 import os
 import jwt
 import hashlib
@@ -98,12 +99,14 @@ def get_all_reviews():
 # 개별 주차장 리뷰 페이지
 @app.route("/reviews/<parkid>", methods=["GET"])
 def show_reviews(parkid):
-    return render_template('reviews/show.html')
+    park = db.park.find_one({'_id': ObjectId(f'{parkid}')}, {'_id':False})
+    reviews = list(db.reviews.find({'parkid': f'{parkid}'}, {'_id':False}))
+    return render_template('reviews/show.html', data={'park': park, 'reviews': reviews})
 
 # 개별 주차장 리뷰 작성 페이지
 @app.route("/reviews/<parkid>/new", methods=["GET"])
 def new_review(parkid):
-    return render_template('reviews/new.html', parkid=parkid)
+    return render_template('reviews/new.html')
 
 # 리뷰 작성하기
 @app.route("/api/reviews", methods=["POST"])
@@ -114,7 +117,7 @@ def create_review():
     rate_receive = request.form['rate_give']
 
     doc = {
-        'userid': int(userid_receive),
+        'userid': userid_receive,
         'parkid': parkid_receive,
         'comment': comment_receive,
         'rate': rate_receive,
@@ -123,11 +126,12 @@ def create_review():
 
     return jsonify({'msg': '등록 완료!'})
 
-# 개별 주차장 리뷰 받아오기 (주차장id)
+# 개별 주차장 정보와 리뷰 받아오기 (주차장id)
 @app.route("/api/reviews/<parkid>", methods=["GET"])
 def get_reviews(parkid):
-    reviews = list(db.reviews.find({'parkid': parkid}, {'_id':False}))
-    return jsonify({'reviews': reviews})
+    park = db.park.find_one({'_id': ObjectId(f'{parkid}')}, {'_id':False})
+    reviews = list(db.reviews.find({'parkid': f'{parkid}'}, {'_id':False}))
+    return jsonify({'park': park, 'reviews': reviews})
 
 # 개별 주차장 리뷰 수정하기 (리뷰id)
 @app.route("/api/reviews/<reviewid>", methods=["PATCH"])
