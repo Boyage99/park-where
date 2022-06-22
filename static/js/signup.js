@@ -61,7 +61,7 @@ function validate_pw_check() {
 
   const pw = $("#pw").val();
 
-  if (pw != pwCheck) {
+  if (pw != pw_check) {
     $("#pwCheckMsg").text("비밀번호가 일치하지 않습니다.").show();
     return false;
   }

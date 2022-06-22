@@ -18,3 +18,18 @@ id
 password
 password
 username */
+
+#form-signup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+#form-signup h2 {
+  font-weight: 500;
+}
+
+.btn-signup {
+  font-weight: 600;
+}
