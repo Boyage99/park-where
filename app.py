@@ -96,9 +96,17 @@ def api_signup():
 
 # ----- review API -----
 @app.route("/reviews", methods=["GET"])
+# TODO: 라우트마다 @login_required 추가하기
 # 모든 리뷰 페이지
 def reviews():
-    return render_template('reviews/index.html')
+    reviews = list(db.reviews.find({}, {'_id':False}))
+    for idx in range(0,len(reviews)):
+        parkid = reviews[idx]['parkid']
+        park = db.park.find_one({'_id': ObjectId(f'{parkid}')}, {'_id': False})
+        parkname = park['주차장명']
+        reviews[idx]['parkname'] = parkname
+    print(reviews)
+    return render_template('reviews/index.html', data={'reviews': reviews})
 
 
 # 모든 리뷰 받아오기
@@ -113,13 +121,15 @@ def get_all_reviews():
 def show_reviews(parkid):
     park = db.park.find_one({'_id': ObjectId(f'{parkid}')}, {'_id':False})
     reviews = list(db.reviews.find({'parkid': f'{parkid}'}, {'_id':False}))
-    return render_template('reviews/show.html', data={'park': park, 'reviews': reviews})
-
-
-# 개별 주차장 리뷰 작성 페이지
-@app.route("/reviews/<parkid>/new", methods=["GET"])
-def new_review(parkid):
-    return render_template('reviews/new.html')
+    reviews_len = (len(reviews))
+    reviews_avg = 0
+    if reviews_len == 0:
+        reviews = []
+    else:
+        reviews_sum = (sum(int(review['rate']) for review in reviews))
+        reviews_avg = f'{float(reviews_sum/reviews_len):.1f}'
+    print(reviews_avg)
+    return render_template('reviews/show.html', data={'park': park, 'reviews': reviews, 'avg': reviews_avg})
 
 
 # 리뷰 작성하기
@@ -140,15 +150,15 @@ def create_review():
 
     return jsonify({'msg': '등록 완료!'})
 
- 
+
 # 개별 주차장 정보와 리뷰 받아오기 (주차장id)
 @app.route("/api/reviews/<parkid>", methods=["GET"])
 def get_reviews(parkid):
     park = db.park.find_one({'_id': ObjectId(f'{parkid}')}, {'_id':False})
     reviews = list(db.reviews.find({'parkid': f'{parkid}'}, {'_id':False}))
-    return jsonify({'park': park, 'reviews': reviews})
+    return jsonify({'park': park, 'reviews': reviews, 'parkid': parkid})
 
- 
+
 # 개별 주차장 리뷰 수정하기 (리뷰id)
 @app.route("/api/reviews/<reviewid>", methods=["PATCH"])
 def patch_review(reviewid):
