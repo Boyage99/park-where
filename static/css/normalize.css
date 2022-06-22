@@ -40,8 +40,13 @@ main {
    */
 
 h1 {
-    font-size: 2em;
-    margin: 0.67em 0;
+    font-size: 33px;
+    margin: 0.3em 0;
+}
+
+h2 {
+    font-size: 20px;
+    margin: 0.7em 0 0.2em;
 }
 
 /* Grouping content
@@ -396,6 +401,12 @@ button {
     cursor: pointer;
 }
 
-textarea {
+ul, ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+* {
     box-sizing: border-box;
 }
