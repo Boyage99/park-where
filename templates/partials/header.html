@@ -4,9 +4,15 @@
 </header>
 
 <script>
+  function removeCookie(cookieName) {
+	document.cookie = cookieName + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+
   document.querySelector(".btn-logout").addEventListener("click", () => {
     alert("로그아웃합니다. 감사합니다");
-    // TODO: 브라우저에서 토큰 제거하는 기능 추가하기(현님)
+    removeCookie("access_token")
+    removeCookie("refresh_token");
+    removeCookie("username");
     window.location.href = "/login";
   });
 </script>
