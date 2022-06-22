@@ -3,7 +3,7 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/static/css/reviews.css">
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=se70fz9oji"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ data.mapId }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="/static/js/reviews.js"></script>
 {% endblock %}
@@ -28,20 +28,9 @@
 
     <article class="review-list">
         <h2>주차장 리뷰</h2>
-        {% if data.reviews %}
-        <ul>
-            {% for review in data.reviews %}
-                <li class="list-all list-park">
-                    <div class="wrap-comment">
-                        <p>⭐ <span class="list-rate">{{ review.rate }}</span></p>
-                        <p>{{ review.comment }}<em class="list-username">-{{ review.userid }}</em></p>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>아직 작성된 리뷰가 없습니다.</p>
-        {% endif %}
+        <div id="review-list">
+        </div>
+        <p id="review-empty">아직 작성된 리뷰가 없습니다.</p>
     </article>
 
     <section class="sect-review">
