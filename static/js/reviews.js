@@ -14,13 +14,32 @@ const getParkReview = () => {
   })
 }
 
+const getCookieValue = (key) => {
+  let cookieKey = key + "="; 
+  let result = "";
+  const cookieArr = document.cookie.split(";");
+  
+  for(let i = 0; i < cookieArr.length; i++) {
+    if(cookieArr[i][0] === " ") {
+      cookieArr[i] = cookieArr[i].substring(1);
+    }
+    
+    if(cookieArr[i].indexOf(cookieKey) === 0) {
+      result = cookieArr[i].slice(cookieKey.length, cookieArr[i].length);
+      return result;
+    }
+  }
+  return result;
+}
+
 const createReview = (e) => {
   e.preventDefault();
   let comment = $("#review-comment").val();
   let rate = $("#review-rate").val();
-  let userid = localStorage.getItem('userid');
+  let username = getCookieValue('username')
+  let userid = decodeURIComponent(username);
   let parkid = window.location.pathname.split("/")[2];
-1
+  
   if (!(comment && rate && userid && parkid)) {
     return alert("빈 값을 모두 입력해주세요.");
   }
