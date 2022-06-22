@@ -91,3 +91,22 @@ header h1 {
   background-size: 50%;
   background-repeat: no-repeat;
 }
+
+
+.link-reviewpage {
+  margin-top: 20px;
+}
+
+.link-reviewpage a {
+  display: block;
+  width: 100%;
+  font-weight: 600;
+}
+
+.link-reviewpage:active {
+  background-color: #edae36;
+}
+
+.link-reviewpage:active a {
+  color: white;
+}
