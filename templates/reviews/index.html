@@ -21,20 +21,18 @@
     </script>
 {% endblock %}
 {% block main %}
-    <h1>리뷰 전체보기 페이지</h1>
-    <h2>테스트 링크</h2>
-    <a href="/reviews/62b165f46080642ab45a6c3b">동화마을제2공영주차장 리뷰</a>
-    <a href="/reviews/62b165f46080642ab45a6c3c">송월시장임시공영주차장 리뷰</a>
-    <a href="/reviews/62b165f46080642ab45a6c3d">중구청사부설주차장 리뷰</a>
+    <h1>리뷰 전체보기</h1>
     <section id="sect-all">
-        <h2>모든 주차장 리뷰</h2>
+        <h2 hidden>모든 주차장 리뷰</h2>
         <!-- FIXME: 스타일링 수정 필요 -->
         {% if data.reviews %}
             <ul class="lists-all">
                 {% for review in data.reviews %}
                     <li class="list-all">
-                        <a href="/reviews/{{ review.parkid }}" class="parkname">{{ review.parkname }}</a>
-                        <p>{{ review.userid }} - {{ review.comment }} (⭐ {{ review.rate }})</p>
+                        <a href="/reviews/{{ review.parkid }}">
+                            <p class="parkname">{{ review.parkname }}</p>
+                            <p>{{ review.userid }} - {{ review.comment }} (⭐ {{ review.rate }})</p>
+                        </a>
                     </li>
                 {% endfor %}
             </ul>
@@ -42,4 +40,8 @@
         <p>아직 작성된 리뷰가 없습니다.</p>
         {% endif %}
     </section>
+        <h2>테스트 링크</h2>
+        <a href="/reviews/62b165f46080642ab45a6c3b">동화마을제2공영주차장 리뷰</a>
+        <a href="/reviews/62b165f46080642ab45a6c3c">송월시장임시공영주차장 리뷰</a>
+        <a href="/reviews/62b165f46080642ab45a6c3d">중구청사부설주차장 리뷰</a>
 {% endblock %}
