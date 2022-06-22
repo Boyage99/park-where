@@ -48,41 +48,21 @@
             font-family: 'Jua', sans-serif;
         }
 
-        .matjip-list {
+        .park-list {
             overflow: scroll;
             width: 100%;
             height: calc(20vh - 30px);
             position: relative;
         }
-
-        .card-title, .card-subtitle {
-            display: inline;
-        }
-
-        #map {
-            width: 100%;
-            height: 50vh;
-            margin: 20px auto 20px auto;
-        }
-
-        .btn-sparta {
-            color: #fff;
-            background-color: #e8344e;
-            border-color: #e8344e;
-        }
-
-        .iw-inner {
-            padding: 10px;
-            font-size: smaller;
-        }
     </style>
 </head>
 <body>
 <div class="wrap">
-    <div class="banner"></div>
+    <div class="banner">
+        <h1>주차장 검색 결과</h1>
+    </div>
     <div id="map"></div>
-    <h1>주차장 검색 결과</h1>
-    <div id="park-box">
+    <div class="park-list" id="park-box">
     </div>
 </div>
 <script
@@ -99,8 +79,6 @@
     const longi = urlSearch.get('longi')
     const radius = urlSearch.get('radius')
 
-    let y_cen = 37.4981125   // lat
-    let x_cen = 127.0379399  // long
     let map;
     let markers = [];
     let infowindows = [];
@@ -148,9 +126,12 @@
             if (infowindow.getMap()) {
                 infowindow.close();
             } else {
-                console.log(i)
                 infowindow.open(map, marker);
                 map.setCenter(infowindow.position)
+
+                $("#park-box").animate({
+                    scrollTop: $("#park-box").get(0).scrollTop + $(`#card-${i}`).position().top
+                }, 500);
 
             }
         });
