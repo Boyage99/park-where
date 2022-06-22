@@ -3,14 +3,13 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/static/css/reviews.css">
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=se70fz9oji"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script defer src="/static/js/reviews.js"></script>
 {% endblock %}
 {% block main %}
     <article class="review-info">
-        <div id="park-map">
-            <img src="/static/img/no-image.png" alt="지도정보없음">
-        </div>
+        <div id="park-map"></div>
         <div class="park-category"><em>{{ data.park['주차장구분'] }} / {{ data.park['주차장유형'] }}</em></div>
         <h1>{{ data.park['주차장명'] }}</h1>
         <h2>주차장 정보</h2>

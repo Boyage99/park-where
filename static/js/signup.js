@@ -13,22 +13,26 @@ function validate_id() {
     return false;
   }
 
+  let exists;
+
   $.ajax({
     type: "POST",
     url: "/api/signup/check_dup",
+    async: false,
     data: {
       id: id
     },
     success: function (response) {
-      if (response.exists) {
+      exists = response.exists;
+      if (exists) {
         $("#idMsg").text("이미 사용중인 아이디입니다.").show();
-        return false;
       } else {
         $("#idMsg").hide();
-        return true;
       }
     }
   });
+
+  return !exists;
 }
 
 function validate_pw() {
