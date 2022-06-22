@@ -3,3 +3,35 @@
 @import url(./normalize.css);
 @import url(./font.css);
 @import url(./partials.css);
+
+:root {
+  --custom-black: #010101;
+  --custom-soft-black: #10181e;
+  --custom-gray-black: #272f35;
+  --custom-yellow: #edae36;
+  --custom-gray: #76838a;
+}
+
+a:hover {
+  color: inherit;
+}
+
+.custom-max-width {
+  max-width: 700px;
+}
+
+.cutom-yellow-bg {
+  background-color: var(--custom-yellow);
+}
+
+.cutom-yellow-border {
+  border: 1px solid var(--custom-yellow);
+}
+
+.cutom-yellow-text {
+  color: var(--custom-yellow);
+}
+
+.cutom-black-text {
+  color: var(--custom-black);
+}

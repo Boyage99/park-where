@@ -1,0 +1,93 @@
+.pattern-bg {
+  position: absolute;
+  z-index: -2;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #e5e5f7;
+  opacity: 0.1;
+  background: radial-gradient(
+      circle,
+      transparent 20%,
+      #e5e5f7 20%,
+      #e5e5f7 80%,
+      transparent 80%,
+      transparent
+    ),
+    radial-gradient(
+        circle,
+        transparent 20%,
+        #e5e5f7 20%,
+        #e5e5f7 80%,
+        transparent 80%,
+        transparent
+      )
+      70px 70px,
+    linear-gradient(
+        #edae36 5.6000000000000005px,
+        transparent 5.6000000000000005px
+      )
+      0 -2.8000000000000003px,
+    linear-gradient(
+        90deg,
+        #edae36 5.6000000000000005px,
+        #e5e5f7 5.6000000000000005px
+      ) -2.8000000000000003px 0;
+  background-size: 140px 140px, 140px 140px, 70px 70px, 70px 70px;
+}
+
+header {
+  text-align: center;
+  position: relative;
+  z-index: -3;
+}
+
+header img {
+  width: 100%;
+}
+
+header h1 {
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -90%);
+}
+
+.button-wrap {
+  display: flex;
+  gap: 0.2em;
+}
+
+.search-btn {
+  background-color: var(--custom-yellow);
+  color: var(--custom-gray-black);
+  flex: 1;
+  text-align: center;
+  padding: 4em 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.search-btn a {
+  color: var(--custom-gray-black);
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 99;
+}
+
+.address {
+  background-image: url("/static/img/map.svg");
+  background-position: center;
+  background-size: 50%;
+  background-repeat: no-repeat;
+}
+.nearby {
+  background-image: url("/static/img/gps.svg");
+  background-position: center;
+  background-size: 50%;
+  background-repeat: no-repeat;
+}

@@ -2,3 +2,11 @@
     <button class="btn-back" onclick="history.back()">뒤로</button>
     <button class="btn-logout">로그아웃</button>
 </header>
+
+<script>
+  document.querySelector(".btn-logout").addEventListener("click", () => {
+    alert("로그아웃합니다. 감사합니다");
+    // TODO: 브라우저에서 토큰 제거하는 기능 추가하기(현님)
+    window.location.href = "/login";
+  });
+</script>
