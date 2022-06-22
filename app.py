@@ -61,7 +61,8 @@ def home():
 
 @app.route("/result", methods=["GET"])
 def nearby():
-    return render_template("result.html")
+    MAP_API_ID = os.environ.get('MAP_API_ID')
+    return render_template("result.html", data={'mapId': MAP_API_ID})
 
 
 @app.route("/searchArea")
@@ -176,7 +177,6 @@ def get_all_reviews():
 # 개별 주차장 리뷰 페이지
 @app.route("/reviews/<parkid>", methods=["GET"])
 def show_reviews(parkid):
-
     park = db.park.find_one({'_id': ObjectId(f'{parkid}')}, {'_id':False})
     reviews = list(db.reviews.find({'parkid': f'{parkid}'}, {'_id':False}))
     reviews_len = (len(reviews))
@@ -186,8 +186,9 @@ def show_reviews(parkid):
     else:
         reviews_sum = (sum(int(review['rate']) for review in reviews))
         reviews_avg = f'{float(reviews_sum/reviews_len):.1f}'
-    print(reviews_avg)
-    return render_template('reviews/show.html', data={'park': park, 'reviews': reviews, 'avg': reviews_avg})
+
+    MAP_API_ID = os.environ.get('MAP_API_ID')
+    return render_template('reviews/show.html', data={'park': park, 'reviews': reviews, 'avg': reviews_avg, 'mapId': MAP_API_ID})
 
 
 # 리뷰 작성하기
