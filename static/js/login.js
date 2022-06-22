@@ -10,6 +10,7 @@ function login() {
       if (response.result == "success") {
         $.cookie("access_token", response.access_token);
         $.cookie("refresh_token", response.refresh_token);
+        $.cookie("user_id", response.user_id);
         $.cookie("username", response.username);
         window.location.href = "/";
       } else {
