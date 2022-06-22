@@ -1,30 +1,45 @@
-{% extends "reviews/layout.html" %} {% block title %}리뷰 전체보기{% endblock %}
-{% block head %} {{ super() }}
-<link rel="stylesheet" href="/static/css/reviews.css" />
-<script>
-  $(document).ready(function () {
-    getAllParkReview();
-  });
-  const getAllParkReview = () => {
-    $.ajax({
-      type: "GET",
-      url: "/api/reviews",
-      data: {},
-      success: function (res) {
-        console.log(res.reviews);
-      },
-    });
-  };
-</script>
-{% endblock %} {% block main %}
-<h1>리뷰 전체보기 페이지</h1>
-<p>-- 테스트 링크 --</p>
-<a href="/reviews/62b165f46080642ab45a6c3b">동화마을제2공영주차장 리뷰</a>
-<a href="/reviews/62b165f46080642ab45a6c3b/new"
-  >동화마을제2공영주차장 리뷰작성</a
->
-<a href="/reviews/62b165f46080642ab45a6c3c">송월시장임시공영주차장 리뷰</a>
-<a href="/reviews/62b165f46080642ab45a6c3c/new"
-  >송월시장임시공영주차장 리뷰작성</a
->
+{% extends "reviews/layout.html" %}
+{% block title %}리뷰 전체보기{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/reviews.css">
+    <!-- TODO: 작업 끝난 후 스크립트 및 테스트 링크 지우기 -->
+    <script>
+        $(document).ready(function () {
+            getAllParkReview();
+        });
+        const getAllParkReview = () => {
+            $.ajax({
+                type: "GET",
+                url: '/api/reviews',
+                data: {},
+                success: function (res) {
+                    console.log(res.reviews);
+                }
+            })
+        }
+    </script>
+{% endblock %}
+{% block main %}
+    <h1>리뷰 전체보기 페이지</h1>
+    <h2>테스트 링크</h2>
+    <a href="/reviews/62b165f46080642ab45a6c3b">동화마을제2공영주차장 리뷰</a>
+    <a href="/reviews/62b165f46080642ab45a6c3c">송월시장임시공영주차장 리뷰</a>
+    <a href="/reviews/62b165f46080642ab45a6c3d">중구청사부설주차장 리뷰</a>
+    <section id="sect-all">
+        <h2>모든 주차장 리뷰</h2>
+        <!-- FIXME: 스타일링 수정 필요 -->
+        {% if data.reviews %}
+            <ul class="lists-all">
+                {% for review in data.reviews %}
+                    <li class="list-all">
+                        <a href="/reviews/{{ review.parkid }}" class="parkname">{{ review.parkname }}</a>
+                        <p>{{ review.userid }} - {{ review.comment }} (⭐ {{ review.rate }})</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+        <p>아직 작성된 리뷰가 없습니다.</p>
+        {% endif %}
+    </section>
 {% endblock %}
