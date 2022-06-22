@@ -131,8 +131,8 @@ def refresh(access_token, refresh_token):
         access_payload["exp"] = now + datetime.timedelta(minutes=1)
         refresh_payload["exp"] = now + datetime.timedelta(minutes=5)
 
-        access_token = jwt.encode(access_payload, SECRET_KEY, algorithm="HS256").decode("utf-8")  # .decode("utf-8")
-        refresh_token = jwt.encode(refresh_payload, SECRET_KEY, algorithm="HS256").decode("utf-8")  # .decode("utf-8")
+        access_token = jwt.encode(access_payload, SECRET_KEY, algorithm="HS256").decode("utf-8")
+        refresh_token = jwt.encode(refresh_payload, SECRET_KEY, algorithm="HS256").decode("utf-8")
 
         return access_token, refresh_token
     except jwt.ExpiredSignatureError:

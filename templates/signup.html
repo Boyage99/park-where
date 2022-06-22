@@ -23,34 +23,46 @@
       <h2 class="h3 mb-5 fw-normal fs-6 mt-5">
         "주차 어디"와 함께해주셔서 감사합니다 🚖
       </h2>
-      <input
-        class="form-control form-control-lg mb-2 fs-6 mb-3"
+      <div class="mb-3">
+        <input
+        class="form-control form-control-lg fs-6"
         type="text"
         id="id"
-        required
         placeholder="아이디"
-      />
-      <input
-        class="form-control form-control-lg mb-2 fs-6 mb-3"
-        type="password"
-        id="pw"
-        required
-        placeholder="비밀번호"
-      />
-      <input
-        class="form-control form-control-lg mb-2 fs-6 mb-3"
-        type="password"
-        id="password_check"
-        required
-        placeholder="비밀번호 확인"
-      />
-      <input
-        class="form-control form-control-lg mb-2 fs-6 mb-5"
-        type="text"
-        id="username"
-        required
-        placeholder="이름"
-      />
+        onblur="validate_id()"
+        />
+        <div class="invalid-feedback" id="idMsg"></div>
+      </div>
+      <div class="mb-3">
+        <input
+          class="form-control form-control-lg fs-6"
+          type="password"
+          id="pw"
+          placeholder="비밀번호"
+          onblur="validate_pw()"
+        />
+        <div class="invalid-feedback" id="pwMsg"></div>
+      </div>
+      <div class="mb-3">
+        <input
+          class="form-control form-control-lg fs-6"
+          type="password"
+          id="password_check"
+          placeholder="비밀번호 확인"
+          onblur="validate_pw_check()"
+        />
+        <div class="invalid-feedback" id="pwCheckMsg"></div>
+      </div>
+      <div class="mb-5">
+        <input
+          class="form-control form-control-lg fs-6"
+          type="text"
+          id="username"
+          placeholder="이름"
+          onblur="validate_name()"
+        />
+        <div class="invalid-feedback" id="nameMsg"></div>
+      </div>
       <button class="btn w-100 cutom-yellow-bg text-white mb-2 py-2">
         회원가입
       </button>
