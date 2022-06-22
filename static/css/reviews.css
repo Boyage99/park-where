@@ -87,6 +87,7 @@
 
 .review-info #park-map {
     width: 100%;
+    height: 200px;
     margin: 0 auto 5vw;
     border-radius: 30px;
     background-color: #272f35;

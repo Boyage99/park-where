@@ -233,6 +233,13 @@ def delete_review(reviewid):
         {'reviewid': reviewid},
         return_document=ReturnDocument.AFTER)
 
+# 주차장 정보 가져오기
+@app.route("/api/parks/<park_id>", methods=["GET"])
+def get_park_data(park_id):
+    park_id = park_id
+    park = db.park.find_one({"_id": ObjectId(f"{park_id}")}, {"_id":False})
+    return jsonify({"result": "success", "park": park})
+
 
 # ---- review end ----
 

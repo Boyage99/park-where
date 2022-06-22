@@ -1,6 +1,41 @@
 $(document).ready(function () {
+  getParkMap();
   getParkReview();
 });
+
+const getParkMap = () => {
+  const park_id = window.location.pathname.split("/")[2];
+
+  let lat, long;
+
+  $.ajax({
+    type: "GET",
+    url: `/api/parks/${park_id}`,
+    async: false,
+    success: function (response) {
+      if (response.result == "success") {
+        const park = response.park;
+        lat = park["위도"];
+        long = park["경도"];
+
+        let map = new naver.maps.Map("park-map", {
+          center: new naver.maps.LatLng(lat, long),
+          zoom: 17,
+          zoomControl: true,
+          zoomControlOptions: {
+            style: naver.maps.ZoomControlStyle.SMALL,
+            position: naver.maps.Position.TOP_RIGHT
+          }
+        });
+
+        let marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(lat, long),
+          map: map
+        });
+      }
+    },
+  });
+}
 
 const getParkReview = () => {
   let parkid = window.location.pathname.split("/")[2];
