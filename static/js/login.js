@@ -9,6 +9,8 @@ function login() {
     success: function (response) {
       if (response.result == "success") {
         $.cookie("token", response.token);
+        $.cookie("refresh_token", response.refresh_token);
+        $.cookie("username", response.username);
         window.location.href = "/";
       } else {
         alert(response.msg);
