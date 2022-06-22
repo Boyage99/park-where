@@ -30,4 +30,182 @@
 .review-form button {
     background-color: #edae36;
     color: #10181e;
+    font-weight: 700;
+}
+
+
+/* 리뷰 작성 섹션 */
+.sect-review {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 0 5vw 155px;
+    border-radius: 30px;
+    background-color: #10181e;
+    color: white;
+    transform: translateY(100%);
+    transition: transform 0.4s ease-in-out;
+    z-index: 100;
+}
+
+.sect-review.on {
+    transform: translateY(130px);
+}
+
+.sect-review h2 {
+    margin: 1em 0;
+    color: white;
+}
+
+.btn-cancel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.btn-cancel img {
+    width: 45px;
+}
+
+
+/* 리뷰 정보 */
+.review-info, .review-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0 5vw;
+    width: 100%;
+    max-width: 1024px;
+}
+
+.review-info #park-map {
+    width: 100%;
+    height: 200px;
+    margin: 0 auto 5vw;
+    border-radius: 30px;
+    background-color: #272f35;
+    text-align: center;
+}
+
+.review-info em {
+    color: #272f35;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+
+/* 리뷰 목록 */
+.park-category h1 {
+    margin-bottom: 20px;
+}
+
+.park-category h2 {
+    margin: 2em 0 0.5em !important;
+}
+
+.park-average {
+    display: flex;
+    justify-content: space-between;
+    padding: 2em;
+    margin-top: 30px;
+    border-radius: 10px;
+    background-color: #eaeaea;
+}
+
+.btn-addreview {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0 20px;
+    border-radius: 10px;
+    background-color: #edae36;
+    color: #10181e;
+    font-weight: 700;
+}
+
+
+/* 리뷰 리스트 */
+#sect-all {
+    width: 100%;
+    margin: 20px 0;
+    padding: 0 5vw;
+}
+
+.list-all {
+    padding: 5px 20px;
+    margin-top: 15px;
+    border-radius: 10px;
+    background-color: #f8f8f9;
+    line-height: 1em;
+    transition: background-color 0.2s ease-out; 
+}
+
+.list-all:hover,
+.list-all:active {
+    background-color: rgba(237, 174, 54, 0.7);
+}
+
+.list-all a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.list-all .parkname {
+    margin-top: 18px;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.list-all .wrap-comment {
+    display: flex;
+}
+
+.list-all .wrap-comment p {
+    margin-top: 0;
+}
+
+.list-all .wrap-comment p:first-child {
+    width: 10%;
+    min-width: 55px;
+    max-width: 100px;
+}
+
+.list-all .wrap-comment p:last-child {
+    width: 80%;
+}
+
+.list-all .list-rate {
+    margin-right: 15px;
+}
+
+.list-rate {
+    font-family: GmarketSans, sans-serif !important;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.list-all .list-username {
+    margin-left: 10px;
+    color: #76838a;
+    font-size: 0.9em;
+    word-break: keep-all;
+}
+
+
+/* 상세페이지 리뷰리스트 */
+.list-all.list-park {
+    padding: 12px;
+    padding-left: 1.5em;
+}
+
+.list-all.list-park .wrap-comment p {
+    margin-top: 1em;
 }

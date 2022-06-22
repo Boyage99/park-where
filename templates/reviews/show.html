@@ -3,24 +3,63 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/static/css/reviews.css">
-    <script>
-        $(document).ready(function () {
-            getParkReview();
-        });
-        const getParkReview = () => {
-            let parkid = window.location.pathname.split("/")[2];
-            $.ajax({
-                type: "GET",
-                url: `/api/reviews/${parkid}`,
-                data: {},
-                success: function (res) {
-                    console.log(res);
-                }
-            })
-        }
-    </script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=se70fz9oji"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="/static/js/reviews.js"></script>
 {% endblock %}
 {% block main %}
-    <h1>개별 주차장 리뷰 페이지</h1>
-    {{ data.park['주차장명'] }}
+    <article class="review-info">
+        <div id="park-map"></div>
+        <div class="park-category"><em>{{ data.park['주차장구분'] }} / {{ data.park['주차장유형'] }}</em></div>
+        <h1>{{ data.park['주차장명'] }}</h1>
+        <h2>주차장 정보</h2>
+        <ul>
+            <li><span class="info-name">주소</span> | {{ data.park['소재지도로명주소'] }}</li>
+            <!-- TODO: 주소 복사 기능 추가 -->
+            <li><span class="info-name">운영 요일</span> | {{ data.park['운영요일'] }}</li>
+            <li><span class="info-name">요금 정보</span> | {{ data.park['요금정보'] }}</li>
+        </ul>
+        <div class="park-average">
+            <strong>평균 ⭐ <span class="list-rate">{{ data.avg }}</span> / 5</strong>
+            <span>( 총 주차장 리뷰 {{ data.reviews|length }}건 )</span>
+        </div>
+        <button type="button" class="btn-addreview">리뷰 작성하기</button>
+    </article>
+
+    <article class="review-list">
+        <h2>주차장 리뷰</h2>
+        {% if data.reviews %}
+        <ul>
+            {% for review in data.reviews %}
+                <li class="list-all list-park">
+                    <div class="wrap-comment">
+                        <p>⭐ <span class="list-rate">{{ review.rate }}</span></p>
+                        <p>{{ review.comment }}<em class="list-username">-{{ review.userid }}</em></p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>아직 작성된 리뷰가 없습니다.</p>
+        {% endif %}
+    </article>
+
+    <section class="sect-review">
+        <h2>리뷰 작성</h2>
+        <form class="review-form">
+            <textarea name="review-comment" id="review-comment" cols="30" rows="10"></textarea>
+            <label for="review-comment" hidden></label>
+            <select class="form-select" id="review-rate">
+                <option selected disabled hidden>-- 선택하세요🌟 --</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+            <label for="review-rate" hidden>별점</label>
+            <button>작성</button>
+        </form>
+        <button type="button" class="btn-cancel"><img src="/static/img/cancel.png" alt="리뷰 작성 취소"></button>
+    </section>
 {% endblock %}
