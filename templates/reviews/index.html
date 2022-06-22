@@ -24,14 +24,16 @@
     <h1>리뷰 전체보기</h1>
     <section id="sect-all">
         <h2 hidden>모든 주차장 리뷰</h2>
-        <!-- FIXME: 스타일링 수정 필요 -->
         {% if data.reviews %}
             <ul class="lists-all">
                 {% for review in data.reviews %}
                     <li class="list-all">
                         <a href="/reviews/{{ review.parkid }}">
                             <p class="parkname">{{ review.parkname }}</p>
-                            <p>{{ review.userid }} - {{ review.comment }} (⭐ {{ review.rate }})</p>
+                            <div class="wrap-comment">
+                                <p>⭐ <span class="list-rate">{{ review.rate }}</span></p>
+                                <p>{{ review.comment }}<em class="list-username">-{{ review.userid }}</em></p>
+                            </div>
                         </a>
                     </li>
                 {% endfor %}

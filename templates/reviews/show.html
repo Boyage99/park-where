@@ -21,7 +21,7 @@
             <li><span class="info-name">요금 정보</span> | {{ data.park['요금정보'] }}</li>
         </ul>
         <div class="park-average">
-            <strong>평균 ⭐ {{ data.avg }} / 5</strong>
+            <strong>평균 ⭐ <span class="list-rate">{{ data.avg }}</span> / 5</strong>
             <span>( 총 주차장 리뷰 {{ data.reviews|length }}건 )</span>
         </div>
         <button type="button" class="btn-addreview">리뷰 작성하기</button>
@@ -32,7 +32,12 @@
         {% if data.reviews %}
         <ul>
             {% for review in data.reviews %}
-                <li class="list-all list-park"> {{ review.userid }} - {{ review.comment }} (⭐ {{ review.rate }})</li>
+                <li class="list-all list-park">
+                    <div class="wrap-comment">
+                        <p>⭐ <span class="list-rate">{{ review.rate }}</span></p>
+                        <p>{{ review.comment }}<em class="list-username">-{{ review.userid }}</em></p>
+                    </div>
+                </li>
             {% endfor %}
         </ul>
         {% else %}
