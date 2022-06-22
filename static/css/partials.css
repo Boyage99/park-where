@@ -1,11 +1,19 @@
-#navbar {
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
-    padding-top: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    padding: 10px;
     margin-bottom: 20px;
     font-size: 15px;
+}
+
+.navbar.scroll {
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
 .btn-back, .btn-logout {
@@ -30,9 +38,9 @@
 #homenav {
     position: fixed;
     bottom: 3vh;
-    left: calc(50% - 40px);
-    width: 80px;
-    height: 80px;
+    left: calc(50% - 30px);
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background: #10181e;
     color: white !important;
@@ -47,5 +55,9 @@
 }
 
 .link-home img {
-    width: 45px;
+    width: 35px;
+}
+
+main {
+    margin: 70px 0 100px;
 }
