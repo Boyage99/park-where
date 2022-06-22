@@ -104,7 +104,7 @@ def api_login():
         access_token = jwt.encode(access_payload, SECRET_KEY, algorithm="HS256").decode("utf-8")
         refresh_token = jwt.encode(refresh_payload, SECRET_KEY, algorithm="HS256").decode("utf-8")
 
-        return jsonify({"result": "success", "access_token": access_token, "refresh_token": refresh_token})
+        return jsonify({"result": "success", "access_token": access_token, "refresh_token": refresh_token, "username": user["username"]})
     else:
         return jsonify({"result": "fail", "msg": "아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요."})
 
@@ -120,6 +120,14 @@ def api_signup():
     db.user.insert_one({"id": id, "pw": pw_hash, "username": username})
 
     return jsonify({"result": "success"})
+
+@app.route("/api/signup/check_dup", methods=["POST"])
+def api_signup_check_dup():
+    id = request.form["id"]
+
+    exists = bool(db.user.find_one({"id": id}))
+
+    return jsonify({"exists": exists})
 
 def refresh(access_token, refresh_token):
     try:
