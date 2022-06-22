@@ -18,7 +18,7 @@ PW = os.environ.get('DB_PW')
 app = Flask(__name__)
 
 # DB 연결
-client = MongoClient("mongodb+srv://"+ID+":"+PW+"@cluster0.4bw3y.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://" + ID + ":" + PW + "@cluster0.4bw3y.mongodb.net/?retryWrites=true&w=majority")
 db = client.dbparkwhere
 
 
@@ -176,6 +176,7 @@ def get_all_reviews():
 # 개별 주차장 리뷰 페이지
 @app.route("/reviews/<parkid>", methods=["GET"])
 def show_reviews(parkid):
+
     park = db.park.find_one({'_id': ObjectId(f'{parkid}')}, {'_id':False})
     reviews = list(db.reviews.find({'parkid': f'{parkid}'}, {'_id':False}))
     reviews_len = (len(reviews))
@@ -243,37 +244,35 @@ def get_park_data(park_id):
 
 # ---- review end ----
 
-# ---- find parks api ---
-@app.route("/api/findParks", methods=["POST"])
+@app.route("/api/search", methods=["POST"])
 def find_parks():
     lat_receive = float(request.form['lat_give'])
     longi_receive = float(request.form['longi_give'])
     radius_receive = int(request.form['radius_give'])
 
-    # # test code
-    # lat_receive = 37.541
-    # longi_receive = 126.986
-    # radius_receive = 5
+    # park_list = list(db.park.find())
+    park_list = list(db.park.find())
 
-    park_list = list(db.park.find({}, {'_id': False}))
     return_park_list = list()
 
     for park in park_list:
 
         if park['위도'] != '' and park['경도'] != '':
+
+            park['_id'] = str(park['_id'])
+
             park_lat = float(park['위도'])
             park_longi = float(park['경도'])
 
             user_location = (lat_receive, longi_receive)  # Latitude, Longitude
             park_location = (park_lat, park_longi)  # Latitude, Longitude
 
-            print(park_lat, park_longi)
             km = haversine(user_location, park_location, unit='km')
 
             if km <= radius_receive:
                 return_park_list.append(park)
 
-    print(return_park_list)
+    # print(return_park_list)
     return jsonify({'list': return_park_list})
 
 
