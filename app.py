@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for, make_response
+from flask import Flask, render_template, request, jsonify, redirect, url_for, make_response
 from functools import wraps
 from dotenv import load_dotenv
 import os
@@ -64,6 +64,11 @@ def nearby():
     MAP_API_ID = os.environ.get('MAP_API_ID')
     return render_template("result.html", data={'mapId': MAP_API_ID})
 
+@app.route("/selectAddress")
+def selectAddress():
+    MAP_API_ID = os.environ.get('MAP_API_ID')
+    NAVER_SECRET_KEY = os.environ.get('NAVER_SECRET_KEY')
+    return render_template("selectAddress.html",data={'mapId': MAP_API_ID,'key':NAVER_SECRET_KEY})
 
 @app.route("/searchArea")
 def searchArea():
@@ -105,7 +110,7 @@ def api_login():
         access_token = jwt.encode(access_payload, SECRET_KEY, algorithm="HS256").decode("utf-8")
         refresh_token = jwt.encode(refresh_payload, SECRET_KEY, algorithm="HS256").decode("utf-8")
 
-        return jsonify({"result": "success", "access_token": access_token, "refresh_token": refresh_token, "username": user["username"]})
+        return jsonify({"result": "success", "access_token": access_token, "refresh_token": refresh_token, "user_id": user["id"], "username": user["username"]})
     else:
         return jsonify({"result": "fail", "msg": "아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요."})
 
@@ -123,7 +128,7 @@ def api_signup():
     return jsonify({"result": "success"})
 
 @app.route("/api/signup/check_dup", methods=["POST"])
-def api_signup_check_dup():
+def api_check_dup():
     id = request.form["id"]
 
     exists = bool(db.user.find_one({"id": id}))
@@ -194,28 +199,38 @@ def show_reviews(parkid):
 # 리뷰 작성하기
 @app.route("/api/reviews", methods=["POST"])
 def create_review():
-    userid_receive = request.form['userid_give']
-    parkid_receive = request.form['parkid_give']
-    comment_receive = request.form['comment_give']
-    rate_receive = request.form['rate_give']
+    user_id = request.form["user_id"]
+    username = request.form["username"]
+    park_id = request.form["park_id"]
+    comment = request.form["comment"]
+    rate = request.form["rate"]
 
-    doc = {
-        'userid': userid_receive,
-        'parkid': parkid_receive,
-        'comment': comment_receive,
-        'rate': rate_receive,
-    }
-    db.reviews.insert_one(doc)
+    db.reviews.insert_one({
+        "userid": user_id,
+        "username": username,
+        "parkid": park_id,
+        "comment": comment,
+        "rate": rate,
+    })
 
     return jsonify({'msg': '등록 완료!'})
 
 
-# 개별 주차장 정보와 리뷰 받아오기 (주차장id)
-@app.route("/api/reviews/<parkid>", methods=["GET"])
-def get_reviews(parkid):
-    park = db.park.find_one({'_id': ObjectId(f'{parkid}')}, {'_id':False})
-    reviews = list(db.reviews.find({'parkid': f'{parkid}'}, {'_id':False}))
-    return jsonify({'park': park, 'reviews': reviews, 'parkid': parkid})
+# 주차장 정보 가져오기
+@app.route("/api/parks/<park_id>", methods=["GET"])
+def get_park(park_id):
+    park_id = park_id
+    park = db.park.find_one({"_id": ObjectId(f"{park_id}")}, {"_id":False})
+    return jsonify({"result": "success", "park": park})
+
+
+# 개별 주차장 리뷰 받아오기 (주차장id)
+@app.route("/api/reviews/<park_id>", methods=["GET"])
+def get_reviews(park_id):
+    reviews = list(db.reviews.find({"parkid": f"{park_id}"}))
+    for review in reviews:
+        review["_id"] = str(review["_id"])
+    return jsonify({"result": "success", "reviews": reviews})
 
 
 # 개별 주차장 리뷰 수정하기 (리뷰id)
@@ -229,18 +244,11 @@ def patch_review(reviewid):
 
 
 # 개별 주차장 리뷰 삭제하기 (리뷰id)
-@app.route("/api/reviews/<reviewid>", methods=["DELETE"])
-def delete_review(reviewid):
-    db.reviews.find_one_and_delete(
-        {'reviewid': reviewid},
-        return_document=ReturnDocument.AFTER)
-
-# 주차장 정보 가져오기
-@app.route("/api/parks/<park_id>", methods=["GET"])
-def get_park_data(park_id):
-    park_id = park_id
-    park = db.park.find_one({"_id": ObjectId(f"{park_id}")}, {"_id":False})
-    return jsonify({"result": "success", "park": park})
+@app.route("/api/reviews", methods=["DELETE"])
+def delete_review():
+    review_id = request.form["review_id"]
+    db.reviews.delete_one({'_id': ObjectId(f'{review_id}')})
+    return jsonify({"result": "success"})
 
 
 # ---- review end ----

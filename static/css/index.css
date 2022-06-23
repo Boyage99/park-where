@@ -1,6 +1,7 @@
 .pattern-bg {
   position: absolute;
   z-index: -2;
+  height: 100vh;
   top: 0;
   bottom: 0;
   left: 0;
@@ -92,7 +93,6 @@ header h1 {
   background-size: 50%;
   background-repeat: no-repeat;
 }
-
 
 .link-reviewpage {
   margin-top: 20px;
