@@ -1,3 +1,7 @@
+body {
+  touch-action: none;
+}
+
 .wrap {
   width: 200vw;
   display: flex;
