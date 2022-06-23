@@ -27,12 +27,12 @@
         {% if data.reviews %}
             <ul class="lists-all">
                 {% for review in data.reviews %}
-                    <li class="list-all">
+                    <li class="list-all all-only">
                         <a href="/reviews/{{ review.parkid }}">
                             <p class="parkname">{{ review.parkname }}</p>
                             <div class="wrap-comment">
                                 <p>⭐ <span class="list-rate">{{ review.rate }}</span></p>
-                                <p>{{ review.comment }}<em class="list-username">-{{ review.userid }}</em></p>
+                                <p>{{ review.comment }}<em class="list-username">-{{ review.username }}</em></p>
                             </div>
                         </a>
                     </li>
@@ -42,8 +42,4 @@
         <p>아직 작성된 리뷰가 없습니다.</p>
         {% endif %}
     </section>
-        <h2>테스트 링크</h2>
-        <a href="/reviews/62b165f46080642ab45a6c3b">동화마을제2공영주차장 리뷰</a>
-        <a href="/reviews/62b165f46080642ab45a6c3c">송월시장임시공영주차장 리뷰</a>
-        <a href="/reviews/62b165f46080642ab45a6c3d">중구청사부설주차장 리뷰</a>
 {% endblock %}
