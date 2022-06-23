@@ -21,7 +21,7 @@ a:hover {
 }
 
 .cutom-yellow-bg {
-  background-color: var(--custom-yellow);
+  background-color: var(--custom-yellow) !important;
 }
 
 .cutom-yellow-border {

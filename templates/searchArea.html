@@ -9,15 +9,38 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
         crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/static/css/searcharea.css">
     <style>
         .search-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             width: 100%;
+            height: 50vh;
             padding: 0 5vw;
             margin: 0 auto;
         }
+
+        .search-box h1 {
+            font-weight: bold;
+        }
+
+        .img-car {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            right: 50%;
+            background-color: white;
+            z-index: -2;
+            transform: translateX(-50%);
+        }
     </style>
+    <!-- FIXME: searcharea에 스타일 합치고 배경 적용 -->
 {% endblock %}
 {% block main %}
+    <div class="pattern-bg"></div>
     <section class="search-box">
         <h1>주변 주차장 검색</h1>
         <form action="/result" method="get">
@@ -31,11 +54,15 @@
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">현재 위치에서 해당 km 내의 주차장을 찾습니다.</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" name="radius">
+                <input type="text" class="form-control mt-4" id="exampleInputPassword1" name="radius" placeholder="km를 입력해주세요.">
             </div>
-            <button type="submit" class="btn btn-primary">찾기</button>
+            <!-- <button type="submit" class="btn btn-primary">찾기</button> -->
+            <button class="btn w-100 cutom-yellow-bg mb-2">찾기</button>
+            <!-- TODO: km 선택하도록 버튼 추가 -->
+            <!-- TODO: GIF 배경문제 해결해서 하단에 추가 -->
         </form>
     </section>
+    <img class="img-car" src="/static/img/searcharea.gif" alt="">
 
     <script>
         // 사용자의 위도, 경도 받아오기
