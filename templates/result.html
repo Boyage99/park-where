@@ -19,38 +19,17 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/static/css/default.css" />
+    <link rel="stylesheet" href="/static/css/result.css" />
+
     <title>주차어디</title>
-    <style>
-      .wrap {
-        width: 100%;
-        margin: 0 auto;
-        padding: 0 5vw;
-        max-width: 750px;
-      }
-
-      h1.title {
-        font-family: "Jua", sans-serif;
-        color: white;
-        font-size: 3rem;
-      }
-
-      h5 {
-        font-family: "Jua", sans-serif;
-      }
-
-      .park-list {
-        overflow: scroll;
-        width: 100%;
-        height: calc(80vh - 30px);
-        position: relative;
-      }
-
-      .wrap #map {
-        height: 30vh;
-      }
-    </style>
   </head>
   <body>
+    <div id="background">
+      <div id="loading" class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
     <div class="wrap">
       <h1>주차장 검색 결과</h1>
       <div id="map"></div>
@@ -64,6 +43,7 @@
 
     <!-- 주차장 list api 호출 -->
     <script>
+      const background = document.querySelector("#background");
       const urlSearch = new URLSearchParams(location.search);
 
       const lat = urlSearch.get("lat");
@@ -146,10 +126,9 @@
             // console.log(park_list)
             for (let i = 0; i < park_list.length; i++) {
               make_card(i, park_list[i]);
-
               let marker = make_marker(park_list[i]);
-
               add_info(i, marker, park_list[i]);
+              background.style.display = "none"; // 로딩스피너 제거
             }
           },
         });

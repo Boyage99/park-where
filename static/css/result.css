@@ -1,0 +1,43 @@
+#background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 998;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+}
+.wrap {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 5vw;
+  max-width: 750px;
+}
+
+h1.title {
+  font-family: "Jua", sans-serif;
+  color: white;
+  font-size: 3rem;
+}
+
+h5 {
+  font-family: "Jua", sans-serif;
+}
+
+.park-list {
+  overflow: scroll;
+  width: 100%;
+  height: calc(80vh - 30px);
+  position: relative;
+}
+
+.wrap #map {
+  height: 30vh;
+}
