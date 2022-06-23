@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-
+{% extends "reviews/layout.html" %}
+{% block title %}주차장 검색 결과{% endblock %}
+{% block head %}
+    {{ super() }}
     <!-- NAVER Map -->
     <script type="text/javascript"
         src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ data.mapId }}&submodules=geocoder"></script>
-
-
     <!-- Bootstrap CSS -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -18,9 +12,15 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
         crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="/static/css/default.css"/>
-    <title>주차어디</title>
     <style>
+        body {
+            overflow-y: hidden;
+        }
+
+        main {
+            margin-top: 20px;
+        }
+
         .wrap {
             width: 100%;
             margin: 0 auto;
@@ -28,155 +28,201 @@
             max-width: 750px;
         }
 
-        h1.title {
-            font-family: 'Jua', sans-serif;
-            color: white;
-            font-size: 3rem;
+        .wrap #map {
+            height: 40vh;
+            border-radius: 5px;
+            overflow: hidden;
         }
 
-        h5 {
-            font-family: 'Jua', sans-serif;
+        h1 {
+            font-weight: 700;
+            text-align: center;
         }
 
         .park-list {
             overflow: scroll;
             width: 100%;
-            height: calc(80vh - 30px);
-            position: relative;
+            height: calc(55vh - 95px);
+            margin-top: 10px;
+            padding-bottom: 80px;
         }
 
-        .wrap #map {
-            height: 30vh;
+        .card {
+            margin-bottom: 5px;
+            border-radius: 10px;
+            background-color: #f8f8f9;
+            line-height: 1em;
+        }
+
+        .card-body p {
+            margin: 0;
+            line-height: 1em;
+        }
+
+        .card-body .card-title a {
+            color: inherit;
+        }
+
+        .card-body .card-link a {
+            color: #edae36;
+        }
+
+        .card-body .wrap-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-body .wrap-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .card-body .card-text.payment {
+            color: var(--custom-gray-black) ;
+            font-weight: 600;
+        }
+
+        .card-body .card-link::after {
+            font-family: "FontAwesome";
+            content: '\f105';
+            padding-left: 3px;
+            font-weight: 900;
+            color: #edae36; 
         }
     </style>
-</head>
-<body>
+{% endblock %}
+{% block main %}
     <div class="wrap">
         <h1>주차장 검색 결과</h1>
         <div id="map"></div>
         <div class="park-list" id="park-box">
         </div>
     </div>
-<script
+    <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"
-></script>
+    ></script>
 
-<!-- 주차장 list api 호출 -->
-<script>
-    const urlSearch = new URLSearchParams(location.search);
+    <!-- 주차장 list api 호출 -->
+    <script>
+        const urlSearch = new URLSearchParams(location.search);
 
-    const lat = urlSearch.get('lat')
-    const longi = urlSearch.get('longi')
-    const radius = urlSearch.get('radius')
+        const lat = urlSearch.get('lat')
+        const longi = urlSearch.get('longi')
+        const radius = urlSearch.get('radius')
 
-    let map;
-    let markers = [];
-    let infowindows = [];
-    $(document).ready(function () {
-        map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(lat, longi),
-            zoom: 13,
-            zoomControl: true,
-            zoomControlOptions: {
-                style: naver.maps.ZoomControlStyle.SMALL,
-                position: naver.maps.Position.TOP_RIGHT
-            }
-        });
+        let map;
+        let markers = [];
+        let infowindows = [];
+        $(document).ready(function () {
+            map = new naver.maps.Map('map', {
+                center: new naver.maps.LatLng(lat, longi),
+                zoom: 13,
+                zoomControl: true,
+                zoomControlOptions: {
+                    style: naver.maps.ZoomControlStyle.SMALL,
+                    position: naver.maps.Position.TOP_RIGHT
+                }
+            });
 
-        find_parks()
-    })
+            find_parks()
+        })
 
-    function make_marker(park_list) {
-        let marker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(park_list["위도"], park_list["경도"]),
-            map: map
-        });
-        markers.push(marker);
-        return marker
-    }
+        function make_marker(park_list) {
+            let marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(park_list["위도"], park_list["경도"]),
+                map: map
+            });
+            markers.push(marker);
+            return marker
+        }
 
-    function add_info(i, marker, park) {
-        let html_temp = `<div class="iw-inner">
-                        <h5>${park['주차장명']}</h5>
-                        <p>${park['소재지도로명주소']}
-                        </div>`;
-        let infowindow = new naver.maps.InfoWindow({
-            content: html_temp,
-            maxWidth: 200,
-            backgroundColor: "#fff",
-            borderColor: "#888",
-            borderWidth: 2,
-            anchorSize: new naver.maps.Size(15, 15),
-            anchorSkew: true,
-            anchorColor: "#fff",
-            pixelOffset: new naver.maps.Point(10, -10)
-        });
-        infowindows.push(infowindow)
-        naver.maps.Event.addListener(marker, "click", function (e) {
+        function add_info(i, marker, park) {
+            let html_temp = `<div class="iw-inner">
+                            <h5>${park['주차장명']}</h5>
+                            <p>${park['소재지도로명주소']}
+                            </div>`;
+            let infowindow = new naver.maps.InfoWindow({
+                content: html_temp,
+                maxWidth: 200,
+                backgroundColor: "#fff",
+                borderColor: "#888",
+                borderWidth: 2,
+                anchorSize: new naver.maps.Size(15, 15),
+                anchorSkew: true,
+                anchorColor: "#fff",
+                pixelOffset: new naver.maps.Point(10, -10)
+            });
+            infowindows.push(infowindow)
+            naver.maps.Event.addListener(marker, "click", function (e) {
+                if (infowindow.getMap()) {
+                    infowindow.close();
+                } else {
+                    infowindow.open(map, marker);
+                    map.setCenter(infowindow.position)
+
+                    $("#park-box").animate({
+                        scrollTop: $("#park-box").get(0).scrollTop + $(`#card-${i}`).position().top - 520
+                    }, 500);
+
+                }
+            });
+        }
+
+        function find_parks() {
+            $.ajax({
+                type: "POST",
+                url: "/api/search",
+                data: {
+                    lat_give: lat,
+                    longi_give: longi,
+                    radius_give: radius
+                },
+                success: function (response) {
+
+                    let park_list = response['list'];
+                    for (let i = 0; i < park_list.length; i++) {
+                        make_card(i, park_list[i])
+
+                        let marker = make_marker(park_list[i]);
+
+                        add_info(i, marker, park_list[i]);
+                    }
+                }
+            });
+        }
+
+        function make_card(i, park) {
+            let html_temp = `<div class="card" id="card-${i}">
+                                <div class="card-body">
+                                    <div class="wrap-title">
+                                        <h5 class="card-title"><a href="javascript:click2center('${i}')">${park['주차장명']}</a></h5>
+                                        <em class="card-subtitle mb-2 text-muted">${park['주차장구분']} / ${park['주차장유형']}</em>
+                                    </div>
+                                    <p class="card-text">${park['소재지도로명주소']}</p>
+                                    <div class="wrap-bottom">
+                                        <p class="card-text payment">요금정보 : ${park['요금정보']}</p>
+                                        <p class="card-link"><a href="/reviews/${park['_id']}">상세페이지 가기</a> </p>
+                                    </div>
+                                </div>
+                            </div>`;
+            $('#park-box').append(html_temp);
+        }
+
+        function click2center(i) {
+            let marker = markers[i]
+            let infowindow = infowindows[i]
             if (infowindow.getMap()) {
                 infowindow.close();
             } else {
                 infowindow.open(map, marker);
                 map.setCenter(infowindow.position)
 
-                $("#park-box").animate({
-                    scrollTop: $("#park-box").get(0).scrollTop + $(`#card-${i}`).position().top
-                }, 500);
-
             }
-        });
-    }
-
-    function find_parks() {
-        $.ajax({
-            type: "POST",
-            url: "/api/search",
-            data: {
-                lat_give: lat,
-                longi_give: longi,
-                radius_give: radius
-            },
-            success: function (response) {
-
-                let park_list = response['list'];
-                // console.log(park_list)
-                for (let i = 0; i < park_list.length; i++) {
-                    make_card(i, park_list[i])
-
-                    let marker = make_marker(park_list[i]);
-
-                    add_info(i, marker, park_list[i]);
-                }
-            }
-        });
-    }
-
-    function make_card(i, park) {
-        let html_temp = `<div class="card" id="card-${i}">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="javascript:click2center('${i}')">${park['주차장명']}</a></h5>
-                                <h6 class="card-subtitle mb-2 text-muted">${park['주차장구분']} / ${park['주차장유형']}</h6>
-                                <p class="card-text">${park['소재지도로명주소']}</p>
-                                <p class="card-text" style="color:blue;">요금정보 : ${park['요금정보']}</p>
-                                <p><a href="/reviews/${park['_id']}">상세페이지 가기</a> </p>
-                            </div>
-                        </div>`;
-        $('#park-box').append(html_temp);
-    }
-
-    function click2center(i) {
-        let marker = markers[i]
-        let infowindow = infowindows[i]
-        if (infowindow.getMap()) {
-            infowindow.close();
-        } else {
-            infowindow.open(map, marker);
-            map.setCenter(infowindow.position)
-
         }
-    }
-</script>
-</body>
-</html>
+    </script>
+{% endblock %}
