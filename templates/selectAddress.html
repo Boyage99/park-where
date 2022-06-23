@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="/static/css/default.css" />
+    <link rel="stylesheet" href="/static/css/partials.css" />
+    <link rel="stylesheet" href="/static/css/selectAddress.css" />
+    <title>주차어디</title>
+  </head>
+  <body class="">
+    {% include "partials/header.html" %}
+    <input type="hidden" name="addr1" id="addr1" />
+    <div class="pattern-bg"></div>
+
+    <div class="wrap">
+      <div class="page page1">
+        <div class="rounded-3 address-btn">서울특별시</div>
+        <div class="rounded-3 address-btn">서울</div>
+        <div class="rounded-3 address-btn">부산</div>
+        <div class="rounded-3 address-btn">대구</div>
+        <div class="rounded-3 address-btn">광주</div>
+        <div class="rounded-3 address-btn">대전</div>
+        <div class="rounded-3 address-btn">인천</div>
+        <div class="rounded-3 address-btn">울산</div>
+        <div class="rounded-3 address-btn">제주</div>
+        <div class="rounded-3 address-btn">경기도</div>
+        <div class="rounded-3 address-btn">충청북도</div>
+        <div class="rounded-3 address-btn">충청남도</div>
+        <div class="rounded-3 address-btn">강원도</div>
+        <div class="rounded-3 address-btn">경상북도</div>
+        <div class="rounded-3 address-btn">경상남도</div>
+        <div class="rounded-3 address-btn">전라북도</div>
+        <div class="rounded-3 address-btn">전라남도</div>
+      </div>
+      <div class="page page2">
+        <input
+          type="text"
+          name="addr2"
+          id="addr2"
+          placeholder="지역구를 입력해주세요(공백 가능) ex) 달서구"
+        />
+        <p class="text-center description">전방 10km의 주차장을 검색합니다</p>
+        <div class="buttons">
+          <button id="search-btn" class="search-btn">주차장 찾기</button>
+          <button id="back" class="search-btn back">뒤로가기</button>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId={{ data.mapId }}&submodules=geocoder"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId={{data.mapId}}&submodules=geocoder"
+    ></script>
+    <script>
+      const wrap = document.querySelector(".wrap");
+      const page1 = document.querySelector(".page1");
+      const searchBtn = document.querySelector("#search-btn");
+      const addr1 = document.querySelector("#addr1");
+      const addr2 = document.querySelector("#addr2");
+      const back = document.querySelector("#back");
+
+      page1.addEventListener("click", (e) => {
+        if (e.target.classList[1] === "address-btn") {
+          const cityName = e.target.innerText;
+          addr1.setAttribute("value", cityName);
+          wrap.style.transform = "translateX(-100vw)";
+        }
+      });
+
+      back.addEventListener("click", () => {
+        wrap.style.transform = "translateX(0)";
+      });
+
+      searchBtn.addEventListener("click", (e) => {
+        const cityName = addr1.value;
+        const detailName = addr2.value;
+
+        naver.maps.Service.geocode(
+          {
+            address: `${cityName} ${detailName}`,
+          },
+          function (status, response) {
+            if (status !== naver.maps.Service.Status.OK) {
+              return alert("Something wrong!");
+            }
+            if (response.result.items.length === 0)
+              return alert("잘못된 주소입니다");
+
+            const result = response.result,
+              items = result.items;
+
+            const lat = items[0].point.y;
+            const long = items[0].point.x;
+            window.location.href = `result?lat=${lat}&longi=${long}&radius=10`;
+          }
+        );
+      });
+    </script>
+  </body>
+</html>

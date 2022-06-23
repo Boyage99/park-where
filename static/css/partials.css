@@ -1,0 +1,65 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55px;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  z-index: 1000;
+}
+
+.navbar.scroll {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-back,
+.btn-logout {
+  color: #10181e;
+  font-weight: 500;
+}
+
+.btn-back::before {
+  font-family: "FontAwesome";
+  content: "\f104";
+  padding: 10px;
+  font-weight: 900;
+}
+
+.btn-logout::after {
+  font-family: "FontAwesome";
+  content: "\f08b";
+  padding: 10px;
+  font-weight: 900;
+}
+
+#homenav {
+  position: fixed;
+  bottom: 3vh;
+  left: calc(50% - 30px);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #10181e;
+  color: white !important;
+}
+
+.link-home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.link-home img {
+  width: 35px;
+}
+
+main {
+  margin: 70px 0 100px;
+}

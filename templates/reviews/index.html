@@ -1,15 +1,45 @@
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>주차어디 | 리뷰 전체보기</title>
-    <link rel="stylesheet" href="/static/css/default.css" />
-  </head>
-
-  <body>
-    <h1>리뷰 전체보기 페이지</h1>
-    <p>테스트</p>
-  </body>
-</html>
+{% extends "reviews/layout.html" %}
+{% block title %}리뷰 전체보기{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/reviews.css">
+    <!-- TODO: 작업 끝난 후 스크립트 및 테스트 링크 지우기 -->
+    <script>
+        $(document).ready(function () {
+            getAllParkReview();
+        });
+        const getAllParkReview = () => {
+            $.ajax({
+                type: "GET",
+                url: '/api/reviews',
+                data: {},
+                success: function (res) {
+                    console.log(res.reviews);
+                }
+            })
+        }
+    </script>
+{% endblock %}
+{% block main %}
+    <h1>리뷰 전체보기</h1>
+    <section id="sect-all">
+        <h2 hidden>모든 주차장 리뷰</h2>
+        {% if data.reviews %}
+            <ul class="lists-all">
+                {% for review in data.reviews %}
+                    <li class="list-all all-only">
+                        <a href="/reviews/{{ review.parkid }}">
+                            <p class="parkname">{{ review.parkname }}</p>
+                            <div class="wrap-comment">
+                                <p>⭐ <span class="list-rate">{{ review.rate }}</span></p>
+                                <p>{{ review.comment }}<em class="list-username">-{{ review.username }}</em></p>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+        <p>아직 작성된 리뷰가 없습니다.</p>
+        {% endif %}
+    </section>
+{% endblock %}

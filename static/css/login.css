@@ -1,0 +1,35 @@
+.logo-bg {
+  position: relative;
+}
+
+.logo-bg img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.logo-bg h1 {
+  font-size: 2.5rem;
+  font-weight: 900 !important;
+  color: var(--cutom-black-text);
+}
+
+/* 
+id
+password
+password
+username */
+
+#form-signup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+#form-signup h2 {
+  font-weight: 500;
+}
+
+.btn-signup {
+  font-weight: 600;
+}
