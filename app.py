@@ -64,6 +64,11 @@ def nearby():
     MAP_API_ID = os.environ.get('MAP_API_ID')
     return render_template("result.html", data={'mapId': MAP_API_ID})
 
+@app.route("/selectAddress")
+def selectAddress():
+    MAP_API_ID = os.environ.get('MAP_API_ID')
+    NAVER_SECRET_KEY = os.environ.get('NAVER_SECRET_KEY')
+    return render_template("selectAddress.html",data={'mapId': MAP_API_ID,'key':NAVER_SECRET_KEY})
 
 @app.route("/searchArea")
 def searchArea():
