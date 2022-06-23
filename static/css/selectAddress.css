@@ -1,0 +1,106 @@
+.wrap {
+  width: 200vw;
+  display: flex;
+  transition: all 300ms;
+}
+
+.page {
+  width: 100vw;
+  margin-top: 5em;
+  display: grid;
+  padding: 0 2em;
+}
+
+.page1 {
+  width: 100vw;
+  margin-top: 5em;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+  padding: 0 2em;
+}
+
+.address-btn {
+  background-color: var(--custom-yellow);
+  padding: 1em 0em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+}
+
+.address-btn:hover {
+  background-color: rgba(237, 174, 54, 0.5);
+}
+
+.pattern-bg {
+  position: absolute;
+  z-index: -2;
+  width: 200vw;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #e5e5f7;
+  opacity: 0.1;
+  background: radial-gradient(
+      circle,
+      transparent 20%,
+      #e5e5f7 20%,
+      #e5e5f7 80%,
+      transparent 80%,
+      transparent
+    ),
+    radial-gradient(
+        circle,
+        transparent 20%,
+        #e5e5f7 20%,
+        #e5e5f7 80%,
+        transparent 80%,
+        transparent
+      )
+      70px 70px,
+    linear-gradient(
+        #edae36 5.6000000000000005px,
+        transparent 5.6000000000000005px
+      )
+      0 -2.8000000000000003px,
+    linear-gradient(
+        90deg,
+        #edae36 5.6000000000000005px,
+        #e5e5f7 5.6000000000000005px
+      ) -2.8000000000000003px 0;
+  background-size: 140px 140px, 140px 140px, 70px 70px, 70px 70px;
+}
+
+#addr2 {
+  width: 100%;
+  height: 3rem;
+  border-radius: 5px;
+  padding-left: 0.5em;
+}
+
+.description {
+  color: var(--custom-gray);
+}
+
+.search-btn {
+  background-color: var(--custom-yellow);
+  border-radius: 5px;
+  color: white;
+  padding: 0;
+  padding: 1em 0;
+}
+
+.back {
+  background-color: #fff;
+  color: var(--custom-yellow);
+  border: 1px solid var(--custom-yellow);
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
