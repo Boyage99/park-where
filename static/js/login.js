@@ -25,3 +25,7 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   login();
 });
+
+document.querySelector("#signup").addEventListener("click", () => {
+  window.location.href = "/signup";
+});
