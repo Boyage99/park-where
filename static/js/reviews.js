@@ -1,25 +1,19 @@
 $(document).ready(function () {
-  getParkMap();
-  getParkReview();
+  const park_id = window.location.pathname.split("/")[2];
+  show_map(park_id);
+  show_reviews(park_id);
 });
 
-const getParkMap = () => {
-  const park_id = window.location.pathname.split("/")[2];
-
-  let lat, long;
-
+function show_map(park_id) {
   $.ajax({
     type: "GET",
     url: `/api/parks/${park_id}`,
-    async: false,
     success: function (response) {
       if (response.result == "success") {
         const park = response.park;
-        lat = park["위도"];
-        long = park["경도"];
 
         let map = new naver.maps.Map("park-map", {
-          center: new naver.maps.LatLng(lat, long),
+          center: new naver.maps.LatLng(park["위도"], park["경도"]),
           zoom: 17,
           zoomControl: true,
           zoomControlOptions: {
@@ -29,7 +23,7 @@ const getParkMap = () => {
         });
 
         let marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(lat, long),
+          position: new naver.maps.LatLng(park["위도"], park["경도"]),
           map: map
         });
       }
@@ -37,16 +31,71 @@ const getParkMap = () => {
   });
 }
 
-const getParkReview = () => {
-  let parkid = window.location.pathname.split("/")[2];
+function show_reviews(park_id) {
   $.ajax({
-      type: "GET",
-      url: `/api/reviews/${parkid}`,
-      data: {},
-      success: function (res) {
-          console.log(res);
+    type: "GET",
+    url: `/api/reviews/${park_id}`,
+    success: function (response) {
+      if (response.result == "success") {
+        const reviews = response.reviews;
+
+        if (!reviews) {
+          $('#review-empty').show();
+          $('#review-list').hide();
+          return;
+        }
+
+        $('#review-list').show();
+        $('#review-empty').hide();
+
+        const user_id = decodeURIComponent(getCookieValue("user_id"));
+
+        for (let review of reviews) {
+          let temp_html = ``
+          if (user_id == review.userid) {
+            temp_html = `<ul>
+                           <li class="list-all list-park">
+                             <div class="wrap-comment">
+                               <p class="pg-rate">⭐ <span class="list-rate">${review.rate}</span></p>
+                               <div class="wrap-cont-comment">
+                                 <p class="pg-comment">${review.comment}<em class="list-username">-${review.username}</em></p>
+                                 <button type="button" class="btn-delete" onclick="delete_review('${review._id}')">삭제</button>
+                               </div>
+                             </div>
+                           </li>
+                         </ul>`
+          } else {
+            temp_html = `<ul>
+                           <li class="list-all list-park">
+                             <div class="wrap-comment">
+                               <p class="pg-rate">⭐ <span class="list-rate">${review.rate}</span></p>
+                               <p class="pg-comment">${review.comment}<em class="list-username">-${review.username}</em></p>
+                             </div>
+                           </li>
+                         </ul>`
+          }
+          $('#review-list').append(temp_html);
+        }
       }
-  })
+    },
+  });
+}
+
+function delete_review(review_id) {
+  console.log(review_id);
+  $.ajax({
+    type: "DELETE",
+    url: `/api/reviews`,
+    data: {
+      review_id: review_id
+    },
+    success: function (response) {
+      if (response.result == "success") {
+        alert("리뷰가 삭제되었습니다.");
+        location.reload();
+      }
+    },
+  });
 }
 
 const getCookieValue = (key) => {
@@ -69,13 +118,13 @@ const getCookieValue = (key) => {
 
 const createReview = (e) => {
   e.preventDefault();
-  let comment = $("#review-comment").val();
-  let rate = $("#review-rate").val();
-  let username = getCookieValue('username')
-  let userid = decodeURIComponent(username);
-  let parkid = window.location.pathname.split("/")[2];
-  
-  if (!(comment && rate && userid && parkid)) {
+  const user_id = decodeURIComponent(getCookieValue("user_id"));
+  const username = decodeURIComponent(getCookieValue("username"));
+  const park_id = window.location.pathname.split("/")[2];
+  const comment = $("#review-comment").val();
+  const rate = $("#review-rate").val();
+
+  if (comment == "" || rate == "") {
     return alert("빈 값을 모두 입력해주세요.");
   }
 
@@ -83,10 +132,11 @@ const createReview = (e) => {
     type: "POST",
     url: "/api/reviews",
     data: {
-      userid_give: userid,
-      parkid_give: parkid,
-      comment_give: comment,
-      rate_give: rate,
+      user_id: user_id,
+      username: username,
+      park_id: park_id,
+      comment: comment,
+      rate: rate,
     },
     success: function (response) {
       console.log(response);
@@ -94,7 +144,7 @@ const createReview = (e) => {
       setTimeout(function() {
         toggleReviewOn();
         location.reload();
-        },400);
+      },400);
     },
   });
 };

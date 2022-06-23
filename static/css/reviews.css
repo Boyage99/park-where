@@ -172,13 +172,15 @@
     margin-top: 0;
 }
 
-.list-all .wrap-comment p:first-child {
+.list-all .wrap-comment .pg-rate {
+    display: flex;
+    align-items: center;
     width: 10%;
     min-width: 55px;
     max-width: 100px;
 }
 
-.list-all .wrap-comment p:last-child {
+.list-all.all-only .wrap-comment p:last-child {
     width: 80%;
 }
 
@@ -208,4 +210,25 @@
 
 .list-all.list-park .wrap-comment p {
     margin-top: 1em;
+}
+
+.list-all.list-park .wrap-comment .pg-rate {
+    display: flex;
+    align-items: center;
+}
+
+.list-all.list-park .wrap-comment .pg-comment {
+    width: 80%;
+}
+
+.wrap-cont-comment {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.btn-delete {
+    justify-items: flex-end;
+    min-width: 45px;
+    color: crimson;
 }

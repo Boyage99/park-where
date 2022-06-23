@@ -17,7 +17,8 @@
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-.btn-back, .btn-logout {
+.btn-back,
+.btn-logout {
   color: #10181e;
   font-weight: 500;
 }
