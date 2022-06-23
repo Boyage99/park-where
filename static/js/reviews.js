@@ -56,9 +56,11 @@ function show_reviews(park_id) {
             temp_html = `<ul>
                            <li class="list-all list-park">
                              <div class="wrap-comment">
-                               <p>⭐ <span class="list-rate">${review.rate}</span></p>
-                               <p>${review.comment}<em class="list-username">-${review.username}</em></p>
-                               <button type="button" onclick="delete_review('${review._id}')">삭제</button>
+                               <p class="pg-rate">⭐ <span class="list-rate">${review.rate}</span></p>
+                               <div class="wrap-cont-comment">
+                                 <p class="pg-comment">${review.comment}<em class="list-username">-${review.username}</em></p>
+                                 <button type="button" class="btn-delete" onclick="delete_review('${review._id}')">삭제</button>
+                               </div>
                              </div>
                            </li>
                          </ul>`
@@ -66,8 +68,8 @@ function show_reviews(park_id) {
             temp_html = `<ul>
                            <li class="list-all list-park">
                              <div class="wrap-comment">
-                               <p>⭐ <span class="list-rate">${review.rate}</span></p>
-                               <p>${review.comment}<em class="list-username">-${review.username}</em></p>
+                               <p class="pg-rate">⭐ <span class="list-rate">${review.rate}</span></p>
+                               <p class="pg-comment">${review.comment}<em class="list-username">-${review.username}</em></p>
                              </div>
                            </li>
                          </ul>`
